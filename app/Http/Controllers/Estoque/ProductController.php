@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Estoque;
 
+use App\Services\CategoryService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 
@@ -11,15 +12,17 @@ use App\Http\Controllers\Controller;
 class ProductController extends Controller
 {
 
-    protected $produtoService;
+    protected $productService;
+    protected $categoryService;
 
     /**
      * ProductController constructor.
-     * @param $produtoService
+     * @param $productService
      */
-    public function __construct(ProductService $produtoService)
+    public function __construct(ProductService $productService, CategoryService $categoryService)
     {
-        $this->produtoService = $produtoService;
+        $this->productService = $productService;
+        $this->categoryService = $categoryService;
     }
 
 
@@ -28,10 +31,16 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try{
-            return $this->produtoservice->all();
+
+           /* if ($request->ajax())
+                return $this->productService->all();*/
+
+            return view('content.produto.index.index')->with('produtos', $this->productService->all());
+
+            //return ;
 
         }catch (\Exception $e){
             throw $e;
@@ -45,7 +54,16 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categorias =  $this->categoryService->all();
+
+        $lstCategories = [];
+        foreach ($categorias as $categoria){
+            $lstCategories[$categoria->id] = $categoria->categoryName;
+        }
+
+       //  $categorias;
+
+        return view('content.produto.create.index')->with('categorias', $lstCategories);
     }
 
     /**
@@ -54,9 +72,9 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\ProductRequest $request)
     {
-        //
+        return $this->productService->create($request->all());
     }
 
     /**
@@ -78,7 +96,16 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categorias =  $this->categoryService->all();
+
+        $lstCategories = [];
+        foreach ($categorias as $categoria){
+            $lstCategories[$categoria->id] = $categoria->categoryName;
+        }
+
+        $produto = $this->productService->find($id);
+
+        return view('content.produto.edit.index')->with(['produto' => $produto, 'categorias' => $lstCategories]);
     }
 
     /**
@@ -88,9 +115,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\ProductRequest $request, $id)
     {
-        //
+        return $this->productService->update($request->all(), $id);
     }
 
     /**
@@ -101,6 +128,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->productService->destroy($id);
     }
 }

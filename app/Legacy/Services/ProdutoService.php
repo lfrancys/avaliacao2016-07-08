@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Legacy\Services;
 
 use App\Legacy\Entities\Produto;
 use App\Services\Padrao\ServiceAbstract;
@@ -11,11 +11,11 @@ use App\Services\Padrao\ServiceAbstract;
  * Date: 08/07/2016
  * Time: 10:46
  */
-class ProductService extends ServiceAbstract
+class ProdutoService extends ServiceAbstract
 {
-    function makeEntity():Model
+    function makeEntity()
     {
-        $this->entity = app(Produto::class);
+        return app(Produto::class);
     }
 
 

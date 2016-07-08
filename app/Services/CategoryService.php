@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Entities\Category;
 use App\Services\Padrao\ServiceAbstract;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Created by PhpStorm.
@@ -14,9 +13,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CategoryService extends ServiceAbstract
 {
-    function makeEntity():Model
+    function makeEntity()
     {
-        $this->entity = app(Category::class);
+        return app(Category::class);
     }
+
+
+
+
 
 }

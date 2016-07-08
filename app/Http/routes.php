@@ -15,5 +15,6 @@
     return view('welcome');
 });*/
 
+Route::resource('/', 'PainelController', ['idex']);
 Route::resource('produto', 'Estoque\ProductController');
 Route::resource('categoria', 'Estoque\CategoryController');

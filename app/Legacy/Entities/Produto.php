@@ -16,7 +16,7 @@ class Produto extends Model
         'descricaoProduto'
     ];
 
-    public function __construct(array $attributes)
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->connection = 'sqlite';

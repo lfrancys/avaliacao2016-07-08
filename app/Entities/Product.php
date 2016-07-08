@@ -11,6 +11,7 @@ class Product extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'id',
         'productName',
         'productPrice',
         'productPicture',
